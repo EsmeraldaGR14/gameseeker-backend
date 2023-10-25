@@ -1,0 +1,31 @@
+{
+  "name": "gameseeker-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "pg:init": "psql -U postgres -f db/schema.sql",
+    "pg:seed": "psql -U postgres -f db/seed.sql"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EsmeraldaGR14/gameseeker-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EsmeraldaGR14/gameseeker-backend/issues"
+  },
+  "homepage": "https://github.com/EsmeraldaGR14/gameseeker-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1"
+  }
+}
