@@ -4,7 +4,7 @@ CREATE DATABASE gameseeker_dev;
 
 \c gameseeker_dev;
 
-DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS game;
 
 CREATE TABLE game (
     id SERIAL PRIMARY KEY,
@@ -14,7 +14,7 @@ CREATE TABLE game (
     description TEXT,
     platform VARCHAR,
     boxart VARCHAR,
-    ESRB VARCHAR,
+    esrb VARCHAR,
     subscription VARCHAR,
     released_year INTEGER,
     developer VARCHAR,
