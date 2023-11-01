@@ -4,7 +4,7 @@ CREATE DATABASE gameseeker_dev;
 
 \c gameseeker_dev;
 
-DROP TABLE IF EXISTS games;
+DROP TABLE IF EXISTS game;
 
 CREATE TABLE game (
     id SERIAL PRIMARY KEY,
@@ -14,8 +14,8 @@ CREATE TABLE game (
     description TEXT,
     platform VARCHAR,
     boxart VARCHAR,
-    ESRB VARCHAR,
-    subscription_service VARCHAR,
+    esrb VARCHAR,
+    subscription VARCHAR,
     released_year INTEGER,
     developer VARCHAR,
     publisher VARCHAR,
@@ -23,5 +23,3 @@ CREATE TABLE game (
     play_time INTEGER,
     completion_time INTEGER
 )
-
--- subscription should be certain things only maybe? first off what is subscriptions for? the game or something else? what are the expected subcriptions to be ? are we checking if its true or 
