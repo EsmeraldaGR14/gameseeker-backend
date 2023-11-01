@@ -5,3 +5,4 @@ VALUES ('The Legend of Adventure', 'Action-Adventure', 8.5, 'Embark on an epic q
 ('Galactic Warfare', 'Sci-Fi FPS', 9.2, 'Fight intergalactic battles in a futuristic world.', 'PC', 'galactic_warfare.jpg', 'Mature', 'None', 2023, 'Stellar Games', 'Space Entertainment Inc.', 'screenshot1.jpg', 40, 50),
 ('Fantasy Quest: The Lost Kingdom', 'RPG', 7.8, 'Embark on a journey to uncover the mysteries of a magical realm.', 'Nintendo Switch', 'fantasy_quest.jpg', 'Everyone', 'Nintendo Switch Online', 2021, 'Mythic Studios', 'Fantasy Games Ltd.', 'screenshot1.jpg', 35, 45);
 
+
