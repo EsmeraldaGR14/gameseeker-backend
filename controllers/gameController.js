@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
   try {
     const games = await allGames();
     res.json(games);
+    res.json(apiData);
   } catch (error) {
     res.status(error.status).json({ error: error.message });
   }
