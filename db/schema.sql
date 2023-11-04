@@ -8,18 +8,18 @@ DROP TABLE IF EXISTS game;
 
 CREATE TABLE game (
     id SERIAL PRIMARY KEY,
-    title VARCHAR NOT NULL,
-    genre VARCHAR(50) NOT NULL,
+    title VARCHAR(300) NOT NULL,
+    genres VARCHAR(50)[] NOT NULL,
     rating DECIMAL(3,1),
     description TEXT,
-    platform VARCHAR,
+    platforms VARCHAR[],
     boxart VARCHAR,
     esrb VARCHAR,
     subscription VARCHAR,
-    released_year INTEGER,
+    released_year VARCHAR(12),
     developer VARCHAR,
     publisher VARCHAR,
-    screenshots TEXT,
-    play_time INTEGER,
+    screenshots VARCHAR[],
+    playtime INTEGER,
     completion_time INTEGER
 )
