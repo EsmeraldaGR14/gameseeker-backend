@@ -1,15 +1,21 @@
 const axios = require("axios");
 
-const fetchDataFromRawgAPI = async () => {
+const fetchDataFromRawgAPI = async (url) => {
   try {
-    const response = await axios.get(
-      "https://api.rawg.io/api/games?key=0cf40416b0b548dea1d637509c3e7801"
-    );
+    const response = await axios.get(url);
 
     return response.data;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
 
-module.exports = { fetchDataFromRawgAPI };
+const addGamesToDatabase = async (data) => {
+  try {
+    const response = await axios.post("http://localhost:3005/games", data);
+    return response.data;
+  } catch (error) {}
+};
+
+module.exports = { fetchDataFromRawgAPI, addGamesToDatabase };
