@@ -42,10 +42,13 @@ router.post("/", async (req, res) => {
   try {
     // pass in the url
     // let url = req.body;
+    let url = req.body.url;
 
-    const data = await fetchDataFromRawgAPI(
-      "https://api.rawg.io/api/games?key=0cf40416b0b548dea1d637509c3e7801&page=2&token="
-    );
+    const data = await fetchDataFromRawgAPI(url);
+
+    // const data = await fetchDataFromRawgAPI(
+    //   "https://api.rawg.io/api/games?key=0cf40416b0b548dea1d637509c3e7801&page=2&token="
+    // );
 
     let arrayOfGames = [];
 
@@ -70,13 +73,13 @@ router.post("/", async (req, res) => {
       arrayOfGames.push(objGame);
     });
 
-    // for (let i = 0; i < arrayOfGames.length; i++) {
-    //   try {
-    //     await newGame(arrayOfGames[i]);
-    //   } catch (error) {
-    //     console.error("Error inserting game into the database:", error);
-    //   }
-    // }
+    for (let i = 0; i < arrayOfGames.length; i++) {
+      try {
+        await newGame(arrayOfGames[i]);
+      } catch (error) {
+        console.error("Error inserting game into the database:", error);
+      }
+    }
 
     res.json(arrayOfGames);
   } catch (error) {
