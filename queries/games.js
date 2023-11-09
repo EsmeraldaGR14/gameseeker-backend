@@ -39,8 +39,11 @@ const newGame = async (data) => {
         data.completion_time,
       ]
     );
+    console.log("inserting", data);
+    console.log("result", addNewGame);
     return addNewGame;
   } catch (error) {
+    console.log("error", error);
     return error;
   }
 };

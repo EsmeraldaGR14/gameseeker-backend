@@ -13,7 +13,6 @@ router.get("/", async (req, res) => {
   try {
     const games = await allGames();
     res.json(games);
-    res.json(apiData);
   } catch (error) {
     res.status(error.status).json({ error: error.message });
   }
@@ -29,11 +28,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  console.log(req.body);
-
   try {
     console.log(req.body);
     const addGame = await newGame(req.body);
+
     res.json(addGame);
   } catch (error) {
     res.status(error.status).json({ error: error.message });

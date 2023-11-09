@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS game;
 CREATE TABLE game (
     id SERIAL PRIMARY KEY,
     title VARCHAR(300) NOT NULL,
-    genres VARCHAR(50)[] NOT NULL,
+    genres VARCHAR[] NOT NULL,
     rating DECIMAL(3,1),
     description TEXT,
     platforms VARCHAR[],
