@@ -21,7 +21,7 @@ const singleGame = async (id) => {
 const newGame = async (data) => {
   try {
     const addNewGame = await db.any(
-      "INSERT INTO game (title, genres, rating, description, platforms, boxart, esrb, subscription, released_year, developer, publisher, screenshots, playtime, completion_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",
+      "INSERT INTO game (title, genres, rating, description, platforms, boxart, esrb, subscription, release_date, developer, publisher, screenshots, playtime, completion_time) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",
       [
         data.title,
         data.genres,
@@ -31,7 +31,7 @@ const newGame = async (data) => {
         data.boxart,
         data.esrb,
         data.subscription,
-        data.released_year,
+        data.release_date,
         data.developer,
         data.publisher,
         data.screenshots,
@@ -39,8 +39,8 @@ const newGame = async (data) => {
         data.completion_time,
       ]
     );
-    console.log("inserting", data);
-    console.log("result", addNewGame);
+    // console.log("inserting", data);
+    // console.log("result", addNewGame);
     return addNewGame;
   } catch (error) {
     console.log("error", error);
@@ -51,7 +51,7 @@ const newGame = async (data) => {
 const updateGame = async (id, data) => {
   try {
     const updatedGame = await db.any(
-      "UPDATE game SET title = $1, genres = $2, rating = $3, description = $4, platforms = $5, boxart = $6, esrb = $7, subscription = $8, released_year = $9, developer = $10, publisher = $11, screenshots = $12, playtime = $13, completion_time = $14 WHERE id = $15 RETURNING *",
+      "UPDATE game SET title = $1, genres = $2, rating = $3, description = $4, platforms = $5, boxart = $6, esrb = $7, subscription = $8, release_date = $9, developer = $10, publisher = $11, screenshots = $12, playtime = $13, completion_time = $14 WHERE id = $15 RETURNING *",
       [
         data.title,
         data.genres,
@@ -61,7 +61,7 @@ const updateGame = async (id, data) => {
         data.boxart,
         data.esrb,
         data.subscription,
-        data.released_year,
+        data.release_date,
         data.developer,
         data.publisher,
         data.screenshots,
