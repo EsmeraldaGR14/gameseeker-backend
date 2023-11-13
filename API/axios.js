@@ -10,7 +10,7 @@ const fetchAllGamesfromGiantBomb = async (lastSuccessfulOffset = 0) => {
       let allGameDetailUrls = [];
       let hasMoreGames = true;
       let offset = lastSuccessfulOffset;
-      const totalGamesToFetch = 25;
+      const totalGamesToFetch = 100;
       const limit = 100;
 
       while (hasMoreGames && allGameDetailUrls.length < totalGamesToFetch) {
