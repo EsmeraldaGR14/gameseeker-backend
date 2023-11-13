@@ -15,7 +15,7 @@ const fetchAllGamesfromGiantBomb = async (lastSuccessfulOffset = 0) => {
 
       while (hasMoreGames && allGameDetailUrls.length < totalGamesToFetch) {
         const response = await axios.get(
-          `https://www.giantbomb.com/api/games/?api_key=${process.env.GIANTBOMB_API_KEY}&format=json&field_list=api_detail_url&limit=${limit}&offset=${offset}`
+          `https://www.giantbomb.com/api/games/?api_key=${process.env.GIANTBOMB_API_KEY}&filter=original_release_date:2015-01-01|2024-12-31&format=json&field_list=api_detail_url&limit=${limit}&offset=${offset}`
         );
 
         if (response.status !== 200) {
