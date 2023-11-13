@@ -10,7 +10,7 @@ const fetchAllGamesfromGiantBomb = async (lastSuccessfulOffset = 0) => {
       let allGameDetailUrls = [];
       let hasMoreGames = true;
       let offset = lastSuccessfulOffset;
-      const totalGamesToFetch = 500;
+      const totalGamesToFetch = 25;
       const limit = 100;
 
       while (hasMoreGames && allGameDetailUrls.length < totalGamesToFetch) {
@@ -62,7 +62,7 @@ const fetchSingleGameDataFromGiantBomb = async (gameDetailUrl) => {
       const response = await axios.get(
         `${gameDetailUrl}?api_key=${process.env.GIANTBOMB_API_KEY}&format=json&field_list=genres,name,platforms,summary,deck,developers,image,original_game_rating,original_release_date,publishers,images`
       );
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       return response.data.results;
     } catch (error) {
       console.error(
