@@ -1,17 +1,16 @@
 require("dotenv").config();
-
-const express = require("express");
 const cors = require("cors");
+const axios = require("axios");
+const express = require("express");
 const morgan = require("morgan");
-
 const app = express();
 
 const gameController = require("./controllers/gameController");
 const apiController = require("./controllers/apiController");
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors());
 
 app.use("/games", gameController);
 app.use("/api", apiController);

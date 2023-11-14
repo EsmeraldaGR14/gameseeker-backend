@@ -29,7 +29,6 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body);
     const addGame = await newGame(req.body);
 
     res.json(addGame);

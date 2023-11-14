@@ -16,7 +16,7 @@ CREATE TABLE game (
     boxart VARCHAR,
     esrb VARCHAR,
     subscription VARCHAR,
-    released_year VARCHAR(12),
+    release_date DATE NULL,
     developer VARCHAR,
     publisher VARCHAR,
     screenshots VARCHAR[],

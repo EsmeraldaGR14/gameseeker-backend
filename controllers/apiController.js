@@ -136,8 +136,10 @@ router.post("/", async (req, res) => {
     }
 
     res.json(arrayOfGames);
+
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);
+    res.status(500).json({ status: "error", message: error.message });
   }
 });
 
