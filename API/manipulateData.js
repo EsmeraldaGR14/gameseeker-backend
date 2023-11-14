@@ -1,5 +1,30 @@
+const { fetchDataFromAPI, addGamesToDatabase } = require("./axios");
+
 const { fetchAllGamesfromGiantBomb, fetchSingleGameDataFromGiantBomb,} = require("./axios");
 const { newGame } = require("../queries/games.js");
+
+async function getGamesFromApi(result) {
+  let arrayOfGames = [];
+  data.results.forEach((element) => {
+    let objGame = {};
+
+    objGame.title = element.aliases;
+    // objGame.genres = element.genres.map((genre) => genre.name);
+    // objGame.rating = element.rating;
+    // objGame.platforms = element.platforms.map(
+    //   (platform) => platform.platform.name
+    // );
+    // objGame.esrb = element.esrb_rating.name;
+    // objGame.released_year = element.released;
+    // objGame.screenshots = element.short_screenshots.map((image) => image.image);
+    // objGame.playtime = element.playtime;
+
+    arrayOfGames.push(objGame);
+  });
+
+  return arrayOfGames;
+  // I am assigning the variables to their respective columns
+}
 
 const extractGameInfo = (result) => {
   const gameInfo = {
@@ -89,4 +114,5 @@ async function addGamesFromApisToDatabase() {
   };
 }
 
-module.exports = { addGamesFromApisToDatabase };
+module.exports = { getGamesFromApi, addGamesFromApisToDatabase };
+

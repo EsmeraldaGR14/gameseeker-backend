@@ -22,4 +22,4 @@ CREATE TABLE game (
     screenshots VARCHAR[],
     playtime INTEGER,
     completion_time INTEGER
-)
+);
