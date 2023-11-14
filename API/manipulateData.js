@@ -17,16 +17,14 @@ const extractGameInfo = (result) => {
   return gameInfo;
 };
 
-async function addGamesFromApisToDatabase(lastSuccessfulOffset) {
+async function addGamesFromApisToDatabase() {
   const maxRetries = 10;
   let retries = 0;
 
   while (retries < maxRetries) {
     try {
       console.log("Fetching games from Giant Bomb API...");
-      const gameDetailUrls = await fetchAllGamesfromGiantBomb(
-        lastSuccessfulOffset
-      );
+      const gameDetailUrls = await fetchAllGamesfromGiantBomb();
       console.log(`Fetched ${gameDetailUrls.length} game URLs.`);
 
       const batchSize = 10;
@@ -86,7 +84,8 @@ async function addGamesFromApisToDatabase(lastSuccessfulOffset) {
 
   return {
     status: "error",
-    message: "Error during data processing. Max retries reached.",
+    message:
+      `Error during data processing. Max retries reached. ${error.message}`,
   };
 }
 

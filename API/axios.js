@@ -1,7 +1,7 @@
 const axios = require("axios");
 require("dotenv").config();
 
-const fetchAllGamesfromGiantBomb = async (lastSuccessfulOffset = 0) => {
+const fetchAllGamesfromGiantBomb = async () => {
   const maxRetries = 10;
   let retries = 0;
 
@@ -9,7 +9,7 @@ const fetchAllGamesfromGiantBomb = async (lastSuccessfulOffset = 0) => {
     try {
       let allGameDetailUrls = [];
       let hasMoreGames = true;
-      let offset = lastSuccessfulOffset;
+      let offset = 0;
       const totalGamesToFetch = 25;
       const limit = 25;
 
