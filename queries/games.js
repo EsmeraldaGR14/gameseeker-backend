@@ -87,6 +87,17 @@ const deleteGame = async (id) => {
     return error;
   }
 };
+const getTopXGames = async (id) => {
+  try {
+    const topXGames = await db.any(
+      "SELECT * FROM game ORDER BY rating DESC LIMIT 10;",
+      id
+    );
+    return topXGames;
+  } catch (error) {
+    return error;
+  }
+};
 
 module.exports = {
   allGames,
@@ -94,4 +105,5 @@ module.exports = {
   newGame,
   updateGame,
   deleteGame,
+  getTopXGames
 };

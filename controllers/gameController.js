@@ -7,6 +7,7 @@ const {
   newGame,
   updateGame,
   deleteGame,
+  getTopXGames,
 } = require("../queries/games");
 
 router.get("/", async (req, res) => {
@@ -51,6 +52,15 @@ router.delete("/:id", async (req, res) => {
   try {
     const deletedGame = await deleteGame(req.params.id);
     res.json(deletedGame);
+  } catch (error) {
+    res.status(error.status).json({ error: error.message });
+  }
+});
+
+router.get("/top-rated-games", async(req,res)=> {
+  try {
+    const topXGames= await getTopXGames()
+    res.json(topXGames);
   } catch (error) {
     res.status(error.status).json({ error: error.message });
   }
