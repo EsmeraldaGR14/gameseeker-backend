@@ -1,10 +1,10 @@
 const axios = require("axios");
 
-const fetchDataFromRawgAPI = async (url) => {
+const fetchDataFromAPI = async (url) => {
   try {
     const response = await axios.get(url);
 
-    return response.data;
+    return response.data ? response.data : response;
   } catch (error) {
     console.log(error);
     return error;
@@ -18,4 +18,4 @@ const addGamesToDatabase = async (data) => {
   } catch (error) {}
 };
 
-module.exports = { fetchDataFromRawgAPI, addGamesToDatabase };
+module.exports = { fetchDataFromAPI, addGamesToDatabase };
