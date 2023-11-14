@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { fetchDataFromAPI } = require("../API/axios");
-const { getGamesFromApi } = require("../API/manipulateData");
+// const { getGamesFromApi } = require("../API/manipulateData");
 
 const { newGame } = require("../queries/games");
 
@@ -136,7 +136,6 @@ router.post("/", async (req, res) => {
     }
 
     res.json(arrayOfGames);
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ status: "error", message: error.message });

@@ -9,7 +9,9 @@ const fetchDataFromAPI = async (url) => {
   } catch (error) {
     console.log(error);
     return error;
-    
+  }
+};
+
 const fetchAllGamesfromGiantBomb = async () => {
   const maxRetries = 10;
   let retries = 0;
@@ -89,5 +91,8 @@ const fetchSingleGameDataFromGiantBomb = async (gameDetailUrl) => {
   );
 };
 
-module.exports = { fetchDataFromAPI, addGamesToDatabase, fetchAllGamesfromGiantBomb, fetchSingleGameDataFromGiantBomb };
-
+module.exports = {
+  fetchDataFromAPI,
+  fetchAllGamesfromGiantBomb,
+  fetchSingleGameDataFromGiantBomb,
+};
