@@ -56,73 +56,91 @@ router.get("/", async (req, res) => {
 
 */
 
+/*
+      id SERIAL PRIMARY KEY,
+      rating DECIMAL(3,1), NONE
+      subscription VARCHAR,
+      screenshots VARCHAR[], NONE
+      playtime INTEGER,
+      completion_time INTEGER NONE
+      */
+
 router.post("/", async (req, res) => {
   try {
     let url =
-      "https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json";
+      "https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json&limit=10";
 
     const data = await fetchDataFromAPI(url);
+
+    console.log(data);
 
     let arrayOfGames = [];
     const promises = [];
 
     for (let i = 0; i < data.results.length; i++) {
-      const element = data.results[i];
       let objGame = {};
+
+      const element = data.results[i];
       let elementURL = element.api_detail_url;
+      let screenshotsURL = element.image_tags.find(
+        (imageURL) => imageURL.name === "Screenshots"
+      );
 
       objGame.title = element.name;
       objGame.esrb = element.original_game_rating
         ? element.original_game_rating[0].name
         : null;
-      objGame.genres = ["genre"];
-      objGame.rating = 1.5;
-      objGame.platforms = ["platform"];
-      objGame.boxart = "string";
-      objGame.subscription = "string";
-      objGame.released_year = "string";
-
-      /*
-      id SERIAL PRIMARY KEY,
-      title VARCHAR(300) NOT NULL,
-      genres VARCHAR[] NOT NULL,
-      rating DECIMAL(3,1),
-      description TEXT,
-      platforms VARCHAR[],
-      boxart VARCHAR,
-      esrb VARCHAR,
-      subscription VARCHAR,
-      released_year VARCHAR(12),
-      developer VARCHAR,
-      publisher VARCHAR,
-      screenshots VARCHAR[],
-      playtime INTEGER,
-      completion_time INTEGER
-      */
+      objGame.description = element.deck;
+      objGame.platforms = element.platforms.map((platform) => platform.name);
+      objGame.boxart = element.image.original_url;
+      objGame.release_date = element.original_release_date;
 
       promises.push(
         (async () => {
           try {
             let elementData = await fetchDataFromAPI(
               elementURL +
-                "?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json"
+                "?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json" +
+                "&filter=original_release_date:2015-01-01|2024-12-31"
+              // https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json
             );
-            objGame.description =
-              "this is just a test to see if the data is being retrieved and integrated correctly," +
-              elementData.results.id;
+
+            let gameData = elementData.results;
+            objGame.genres = gameData.genres.map((genre) => genre.name);
+            objGame.developer = gameData.developers.map(
+              (developer) => developer.name
+            );
+            objGame.publisher = gameData.publishers.map(
+              (publisher) => publisher.name
+            );
+
             // console.log("elementData:", elementData);
           } catch (error) {
-            console.log(
-              "Error fetching elementData for",
-
-              ":",
-              error
-            );
+            // console.log("Error fetching elementData for", ":", error);
+            return error;
           }
           return objGame;
         })()
       );
-      arrayOfGames.push(objGame);
+
+      promises.push(
+        (async () => {
+          try {
+            let elementData = await fetchDataFromAPI(
+              screenshotsURL.api_detail_url +
+                "&api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json"
+            );
+            let imageData = elementData.results;
+
+            objGame.screenshots = imageData.map((image) => image.original_url);
+            arrayOfGames.push(objGame);
+          } catch (error) {
+            // console.log("ERROR FETCHING ELEMENTDATA FOR", ":", error);
+            return error;
+          }
+          return objGame;
+        })()
+      );
     }
 
     arrayOfGames = await Promise.all(promises);
@@ -131,7 +149,8 @@ router.post("/", async (req, res) => {
       try {
         await newGame(arrayOfGames[i]);
       } catch (error) {
-        console.error("Error inserting game into the database:", error);
+        // console.error("Error inserting game into the database:", error);
+        return error;
       }
     }
 
