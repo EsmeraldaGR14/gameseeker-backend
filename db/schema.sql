@@ -17,8 +17,8 @@ CREATE TABLE game (
     esrb VARCHAR,
     subscription VARCHAR,
     release_date VARCHAR,
-    developer VARCHAR[],
-    publisher VARCHAR[],
+    developers VARCHAR[],
+    publishers VARCHAR[],
     screenshots VARCHAR[],
     playtime INTEGER,
     completion_time INTEGER
