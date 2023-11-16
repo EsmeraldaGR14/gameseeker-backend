@@ -10,7 +10,17 @@ const {
   getTopXGames,
 } = require("../queries/games");
 
-router.get("/", async (req, res) => {
+router.get("/top-rated-games", async (req, res) => {
+  try {
+    const topXGames = await getTopXGames();
+    res.json(topXGames);
+  } catch (error) {
+    res.status(error.status).json({ error: error.message });
+  }
+});
+
+
+router.get("/games", async (req, res) => {
   try {
     const games = await allGames();
     res.json(games);
@@ -48,7 +58,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete(":id", async (req, res) => {
   try {
     const deletedGame = await deleteGame(req.params.id);
     res.json(deletedGame);
@@ -57,13 +67,5 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/top-rated-games", async(req,res)=> {
-  try {
-    const topXGames= await getTopXGames()
-    res.json(topXGames);
-  } catch (error) {
-    res.status(error.status).json({ error: error.message });
-  }
-});
 
 module.exports = router;

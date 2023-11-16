@@ -17,7 +17,7 @@ const singleGame = async (id) => {
     return error;
   }
 };
-
+// const getSingleGame = await db.any("SELECT * FROM game WHERE id = $1", id);
 const newGame = async (data) => {
   try {
     const addNewGame = await db.any(
@@ -87,11 +87,10 @@ const deleteGame = async (id) => {
     return error;
   }
 };
-const getTopXGames = async (id) => {
+const getTopXGames = async () => {
   try {
     const topXGames = await db.any(
-      "SELECT * FROM game ORDER BY rating DESC LIMIT 10;",
-      id
+      "SELECT * FROM game ORDER BY rating DESC LIMIT 10;"
     );
     return topXGames;
   } catch (error) {
