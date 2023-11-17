@@ -30,7 +30,7 @@ router.get("/get-x-games-at-a-time", async (req, res) => {
   }
 });
 
-router.get("/games", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const games = await allGames();
     res.json(games);
