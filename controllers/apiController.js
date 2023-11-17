@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     console.log(process.env.GIANT_BOMB_API_KEY);
-    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json&limit=1`;
+    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
 
     const data = await fetchDataFromAPI(url);
 
