@@ -1,4 +1,4 @@
-require("dotenv").config();
+// require("dotenv").config();
 
 const express = require("express");
 const router = express.Router();
@@ -10,7 +10,7 @@ const { proc } = require("../db/dbConfig");
 
 router.get("/", async (req, res) => {
   try {
-    let url = `https://www.giantbomb.com/api/games/?api_key=${process.env.GIANT_BOMB_API_KEY}&format=json`;
+    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
 
     const data = await fetchDataFromAPI(url);
 
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     console.log(process.env.GIANT_BOMB_API_KEY);
-    let url = `https://www.giantbomb.com/api/games/?api_key=${process.env.GIANT_BOMB_API_KEY}&format=json&limit=1`;
+    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
 
     const data = await fetchDataFromAPI(url);
 
@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
           try {
             let elementData = await fetchDataFromAPI(
               elementURL +
-                `?api_key=${process.env.GIANT_BOMB_API_KEY}&format=json` +
+                `?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json` +
                 `&filter=original_release_date:2015-01-01|2024-12-31`
             );
 
