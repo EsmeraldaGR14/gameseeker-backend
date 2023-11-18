@@ -97,11 +97,23 @@ const getTopXGames = async () => {
   }
 };
 
+const getLatestGames = async () => {
+  try {
+    const latestGames = await db.any(
+      "SELECT * FROM game ORDER BY release_date DESC LIMIT 10;"
+    );
+    return latestGames;
+  } catch (error) {
+    return error; 
+  }
+};
+
 module.exports = {
   allGames,
   singleGame,
   newGame,
   updateGame,
   deleteGame,
-  getTopXGames
+  getTopXGames,
+  getLatestGames
 };
