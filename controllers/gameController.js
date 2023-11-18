@@ -22,7 +22,7 @@ router.get("/top-rated-games", async (req, res) => {
 
 router.get("/get-x-games-at-a-time", async (req, res) => {
   try {
-    const getXGames = await getXGamesAtATime(req.body);
+    const getXGames = await getXGamesAtATime(req.query);
 
     res.json(getXGames);
   } catch (error) {
