@@ -8,7 +8,11 @@ const {
   updateGame,
   deleteGame,
   getTopXGames,
+
   getLatestGames,
+
+  getXGamesAtATime,
+
 } = require("../queries/games");
 
 router.get("/top-rated-games", async (req, res) => {
@@ -20,6 +24,7 @@ router.get("/top-rated-games", async (req, res) => {
   }
 });
 
+
 router.get("/latest-games", async (req, res) => {
   try {
     const latestGames = await getLatestGames();
@@ -27,6 +32,17 @@ router.get("/latest-games", async (req, res) => {
   } catch (error){
     res.status(error.status).json({error: error.message });
   } 
+
+router.get("/get-x-games-at-a-time", async (req, res) => {
+  try {
+    const getXGames = await getXGamesAtATime(req.query);
+
+    res.json(getXGames);
+  } catch (error) {
+    console.log("get X games a time error:", error);
+    res.status(error.status).json({ error: error.message });
+  }
+
 });
 
 router.get("/", async (req, res) => {
@@ -74,6 +90,5 @@ router.delete("/:id", async (req, res) => {
     res.status(error.status).json({ error: error.message });
   }
 });
-
 
 module.exports = router;
