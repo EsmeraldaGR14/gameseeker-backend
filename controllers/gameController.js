@@ -22,7 +22,8 @@ router.get("/top-rated-games", async (req, res) => {
 
 router.get("/get-x-games-at-a-time", async (req, res) => {
   try {
-    const getXGames = await getXGamesAtATime(req.body);
+    const getXGames = await getXGamesAtATime(req.query);
+
     res.json(getXGames);
   } catch (error) {
     console.log("get X games a time error:", error);
@@ -30,7 +31,7 @@ router.get("/get-x-games-at-a-time", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/games", async (req, res) => {
   try {
     const games = await allGames();
     res.json(games);
@@ -67,7 +68,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete(":id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const deletedGame = await deleteGame(req.params.id);
     res.json(deletedGame);
