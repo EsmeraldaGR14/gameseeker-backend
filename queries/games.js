@@ -104,8 +104,9 @@ const getLatestGames = async () => {
     );
     return latestGames;
   } catch (error) {
-    return error; 
-
+    return error;
+  }
+};
 const getXGamesAtATime = async (data) => {
   try {
     const XGames = await db.any(
@@ -116,8 +117,6 @@ const getXGamesAtATime = async (data) => {
   } catch (error) {
     console.log("queries getXGamesAtATime error:", error);
     return error;
-
-  }
 };
 
 module.exports = {
@@ -127,9 +126,6 @@ module.exports = {
   updateGame,
   deleteGame,
   getTopXGames,
-
-  getLatestGames
-
+  getLatestGames,
   getXGamesAtATime,
-
 };

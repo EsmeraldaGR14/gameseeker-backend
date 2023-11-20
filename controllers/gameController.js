@@ -8,9 +8,7 @@ const {
   updateGame,
   deleteGame,
   getTopXGames,
-
   getLatestGames,
-
   getXGamesAtATime,
 
 } = require("../queries/games");
