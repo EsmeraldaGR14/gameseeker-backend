@@ -118,7 +118,7 @@ const getXGamesAtATime = async (data) => {
     console.log("queries getXGamesAtATime error:", error);
     return error;
 };
-
+};
 module.exports = {
   allGames,
   singleGame,
