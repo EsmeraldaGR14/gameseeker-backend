@@ -78,7 +78,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete(":id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const deletedGame = await deleteGame(req.params.id);
     res.json(deletedGame);
