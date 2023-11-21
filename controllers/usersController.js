@@ -9,7 +9,7 @@ const {
   deleteUser,
 } = require("../queries/users");
 
-router.get("/", async (req, res) => {
+router.get("/get-all-users", async (req, res) => {
   try {
     const users = await allUsers();
     res.json(users);
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("get-user-by-id/:id", async (req, res) => {
   try {
     const user = await singleUser(req.params.id);
     res.json(user);
@@ -27,7 +27,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("add-user/", async (req, res) => {
   try {
     const addUser = await newUser(req.body);
     res.json(addUser);
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("update-user/:id", async (req, res) => {
   try {
     const updatedUser = await updateUser(req.params.id, req.body);
     res.json(updatedUser);
@@ -45,7 +45,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("delete-user/:id", async (req, res) => {
   try {
     const deletedUser = await deleteUser(req.params.id);
     res.json(deletedUser);
