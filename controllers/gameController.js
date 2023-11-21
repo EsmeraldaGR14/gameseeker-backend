@@ -10,7 +10,6 @@ const {
   getTopXGames,
   getLatestGames,
   getXGamesAtATime,
-
 } = require("../queries/games");
 
 router.get("/top-rated-games", async (req, res) => {
@@ -34,14 +33,12 @@ router.get("/latest-games", async (req, res) => {
 
 router.get("/get-x-games-at-a-time", async (req, res) => {
   try {
-    const getXGames = await getXGamesAtATime(req.query);
-
+    const getXGames = await getXGamesAtATime(req.body);
     res.json(getXGames);
   } catch (error) {
     console.log("get X games a time error:", error);
     res.status(error.status).json({ error: error.message });
   }
-
 });
 
 router.get("/", async (req, res) => {

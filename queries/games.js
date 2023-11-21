@@ -109,10 +109,10 @@ const getLatestGames = async () => {
 };
 const getXGamesAtATime = async (data) => {
   try {
-    const XGames = await db.any(
-      "SELECT * FROM game ORDER BY ID ASC LIMIT $1 OFFSET $2;",
-      [data.limit, data.offset]
-    );
+    const XGames = await db.any("SELECT * FROM game LIMIT $1 OFFSET $2;", [
+      data.limit,
+      data.offset,
+    ]);
     return XGames;
   } catch (error) {
     console.log("queries getXGamesAtATime error:", error);
