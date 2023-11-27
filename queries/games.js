@@ -119,6 +119,7 @@ const getXGamesAtATime = async (data) => {
     return error;
 };
 };
+
 module.exports = {
   allGames,
   singleGame,
