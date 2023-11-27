@@ -1,4 +1,5 @@
 const db = require("../db/dbConfig");
+const bcrypt = require("bcrypt");
 
 const allUsers = async () => {
   try {
@@ -6,30 +7,31 @@ const allUsers = async () => {
     return getAllUsers;
   } catch (error) {
     console.error("Error in allUsers query:", error);
-    throw error;
+    return { success: false, error: error.message || "Internal Server Error" };
   }
 };
 
-const singleUser = async (id) => {
+const singleUser = async (email) => {
   try {
-    const getSingleUser = await db.any("SELECT * FROM users WHERE id = $1", id);
+    const getSingleUser = await db.any("SELECT * FROM users WHERE email = $1", email);
     return getSingleUser;
   } catch (error) {
     console.error("Error in singleUser query:", error);
-    throw error;
+    return { success: false, error: error.message || "Internal Server Error" };
   }
 };
 
 const newUser = async (data) => {
   try {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     const addNewUser = await db.any(
       "INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *",
-      [data.email, data.password]
+      [data.email, hashedPassword]
     );
     return addNewUser;
   } catch (error) {
     console.error("Error in newUser query:", error);
-    throw error;
+    return { success: false, error: error.message || "Internal Server Error" };
   }
 };
 
@@ -42,20 +44,17 @@ const updateUser = async (id, data) => {
     return updatedUser;
   } catch (error) {
     console.error("Error in updateUser query:", error);
-    throw error;
+    return { success: false, error: error.message || "Internal Server Error" };
   }
 };
 
 const deleteUser = async (id) => {
   try {
-    const deletedUser = await db.any(
-      "DELETE FROM users WHERE id = $1 RETURNING *",
-      [id]
-    );
-    return deletedUser;
+    await db.any("DELETE FROM users WHERE id = $1", [id]);
+    return { success: true, message: "User deleted successfully" };
   } catch (error) {
     console.error("Error in deleteUser query:", error);
-    throw error;
+    return { success: false, error: error.message || "Internal Server Error" };
   }
 };
 
