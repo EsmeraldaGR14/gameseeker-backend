@@ -7,9 +7,9 @@ const {
   deleteGameInCollection,
 } = require("../queries/collection");
 
-router.get("/:id", async (req, res) => {
+router.get("/:userId", async (req, res) => {
   try {
-    const { id: userId } = req.params;
+    const { userId } = req.params;
 
     if (!userId) {
       return res.status(400).json({ error: "userId is required." });
@@ -25,9 +25,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/:userId/:gameId", async (req, res) => {
   try {
-    const { userId, gameId } = req.body;
+    const { userId, gameId } = req.params;
 
     if (!userId || !gameId) {
       return res
