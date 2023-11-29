@@ -8,6 +8,7 @@ const gameController = require("./controllers/gameController");
 const apiController = require("./controllers/apiController");
 const usersController = require("./controllers/usersController");
 const collectionController = require("./controllers/collectionController");
+const backlogController = require("./controllers/backlogController");
 
 app.use(cors());
 app.use(express.json());
@@ -16,7 +17,8 @@ app.use(morgan("dev"));
 app.use("/games", gameController);
 app.use("/api", apiController);
 app.use("/users", usersController);
-app.use("/collection", collectionController)
+app.use("/collection", collectionController);
+app.use("/backlog", backlogController);
 
 app.get("/", (req, res) => {
   res.send("Welcome to GameSeeker!");
