@@ -21,19 +21,18 @@ router.get("/top-rated-games", async (req, res) => {
   }
 });
 
-
 router.get("/latest-games", async (req, res) => {
   try {
     const latestGames = await getLatestGames();
-    res.json(latestGames); 
-  } catch (error){
-    res.status(error.status).json({error: error.message });
-  } 
+    res.json(latestGames);
+  } catch (error) {
+    res.status(error.status).json({ error: error.message });
+  }
 });
 
 router.get("/get-x-games-at-a-time", async (req, res) => {
   try {
-    const getXGames = await getXGamesAtATime(req.body);
+    const getXGames = await getXGamesAtATime(req.query);
     res.json(getXGames);
   } catch (error) {
     console.log("get X games a time error:", error);
