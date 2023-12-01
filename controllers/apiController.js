@@ -10,7 +10,9 @@ const { proc } = require("../db/dbConfig");
 
 router.get("/", async (req, res) => {
   try {
-    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
+    // let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
+    let url =
+      "https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&filter=original_release_date:2015-01-01T00:00:00Z|2023-12-01T00:00:00Z&format=json";
 
     const data = await fetchDataFromAPI(url);
 
@@ -39,7 +41,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     console.log(process.env.GIANT_BOMB_API_KEY);
-    let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
+    // let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
+    let url =
+      "https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&filter=original_release_date:2020-01-01T00:00:00Z|2023-12-01T00:00:00Z&format=json";
 
     const data = await fetchDataFromAPI(url);
 
@@ -59,7 +63,9 @@ router.post("/", async (req, res) => {
           ? element.original_game_rating[0].name
           : null,
         description: element.deck,
-        platforms: element.platforms.map((platform) => platform.name),
+        platforms: Array.isArray(element.platforms)
+          ? element.platforms.map((platform) => platform.name)
+          : [],
         boxart: element.image.original_url,
         release_date: element.original_release_date,
       };
