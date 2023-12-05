@@ -11,6 +11,16 @@ const allUsers = async () => {
   }
 };
 
+const getUserById = async (id) => {
+  try {
+    const getSingleUser = await db.any("SELECT * FROM users WHERE id = $1", id);
+    return getSingleUser;
+  } catch (error) {
+    console.error("Error in getUserById query:", error);
+    return { success: false, error: error.message || "Internal Server Error" };
+  }
+};
+
 const singleUser = async (email) => {
   try {
     const getSingleUser = await db.any("SELECT * FROM users WHERE email = $1", email);
@@ -64,4 +74,5 @@ module.exports = {
   newUser,
   updateUser,
   deleteUser,
+  getUserById,
 };

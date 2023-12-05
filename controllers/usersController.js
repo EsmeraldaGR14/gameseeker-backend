@@ -8,6 +8,7 @@ const {
   newUser,
   updateUser,
   deleteUser,
+  getUserById,
 } = require("../queries/users");
 
 router.get("/get-all-users", async (req, res) => {
@@ -19,9 +20,18 @@ router.get("/get-all-users", async (req, res) => {
   }
 });
 
+router.get("/get-user-by-id/:id", async (req, res) => {
+  try {
+    const user = await getUserById(req.params.id);
+    res.json(user);
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message });
+  }
+});
+
 router.get("/get-user-by-email/:email", async (req, res) => {
   try {
-    const user = await singleUser(req.params.id);
+    const user = await singleUser(req.params.email);
     res.json(user);
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message });
