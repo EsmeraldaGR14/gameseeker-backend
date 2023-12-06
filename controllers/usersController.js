@@ -10,6 +10,9 @@ const {
   deleteUser,
   getUserById,
 } = require("../queries/users");
+const {
+  checkDuplicateEmail
+} = require("../validations/checkUsers");
 
 router.get("/get-all-users", async (req, res) => {
   try {
@@ -38,7 +41,7 @@ router.get("/get-user-by-email/:email", async (req, res) => {
   }
 });
 
-router.post("/add-user", async (req, res) => {
+router.post("/add-user", checkDuplicateEmail, async (req, res) => {
   try {
     const addUser = await newUser(req.body);
     res.json(addUser);

@@ -37,7 +37,7 @@ DROP TABLE IF EXISTS collection;
 
 CREATE TABLE collection (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     game_id INTEGER REFERENCES game(id),
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS wishlist;
 
 CREATE TABLE wishlist (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     game_id INTEGER REFERENCES game(id),
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS backlog;
 
 CREATE TABLE backlog (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     game_id INTEGER REFERENCES game(id),
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     completed BOOLEAN DEFAULT FALSE
