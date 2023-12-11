@@ -9,6 +9,7 @@ const apiController = require("./controllers/apiController");
 const usersController = require("./controllers/usersController");
 const collectionController = require("./controllers/collectionController");
 const backlogController = require("./controllers/backlogController");
+const wishlistController = require("./controllers/wishlistController");
 
 app.use(cors());
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use("/api", apiController);
 app.use("/users", usersController);
 app.use("/collection", collectionController);
 app.use("/backlog", backlogController);
+app.use("/wishlist", wishlistController);
 
 app.get("/", (req, res) => {
   res.send("Welcome to GameSeeker!");

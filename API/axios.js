@@ -12,6 +12,23 @@ const fetchDataFromAPI = async (url) => {
   }
 };
 
+const fetchDataFromXboxAPI = async (url) => {
+  try {
+    const response = await axios.get(url);
+
+    // Extract and return specific data
+    if (response.data) {
+      // Extract and return specific data from each item in the response
+      return response.data.map((item) => item.id);
+    }
+    return [];
+  } catch (error) {
+    console.log("axios error:", error);
+    return error;
+  }
+};
+
 module.exports = {
   fetchDataFromAPI,
+  fetchDataFromXboxAPI,
 };

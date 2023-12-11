@@ -8,7 +8,11 @@ const {
   newUser,
   updateUser,
   deleteUser,
+  getUserById,
 } = require("../queries/users");
+const {
+  checkDuplicateEmail
+} = require("../validations/checkUsers");
 
 router.get("/get-all-users", async (req, res) => {
   try {
@@ -19,16 +23,25 @@ router.get("/get-all-users", async (req, res) => {
   }
 });
 
-router.get("/get-user-by-email/:email", async (req, res) => {
+router.get("/get-user-by-id/:id", async (req, res) => {
   try {
-    const user = await singleUser(req.params.id);
+    const user = await getUserById(req.params.id);
     res.json(user);
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message });
   }
 });
 
-router.post("/add-user", async (req, res) => {
+router.get("/get-user-by-email/:email", async (req, res) => {
+  try {
+    const user = await singleUser(req.params.email);
+    res.json(user);
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message });
+  }
+});
+
+router.post("/add-user", checkDuplicateEmail, async (req, res) => {
   try {
     const addUser = await newUser(req.body);
     res.json(addUser);

@@ -2,10 +2,11 @@
 
 const express = require("express");
 const router = express.Router();
-
-const { fetchDataFromAPI } = require("../API/axios");
-
-const { newGame } = require("../queries/games");
+const {
+  newGame,
+  insertGameSubscription,
+} = require("../queries/games");
+const { fetchDataFromAPI, fetchDataFromXboxAPI } = require("../API/axios");
 const { proc } = require("../db/dbConfig");
 
 router.get("/", async (req, res) => {
@@ -25,6 +26,56 @@ router.get("/", async (req, res) => {
   }
 });
 
+const updateGamesWithSubscription = async (subscriptionService, mainUrl, arrayOfGames) => {
+  try {
+    const gameIds = await fetchDataFromXboxAPI(mainUrl);
+    let updatedGames = [];
+    const extractedData = await Promise.all(
+      gameIds.map(async (id) => {
+        const gameDataUrl = `https://displaycatalog.mp.microsoft.com/v7.0/products?bigIds=${id}&market=US&languages=en-us&MS-CV=DGU1mcuYo0WMMp`;
+        const gameData = await fetchDataFromAPI(gameDataUrl);
+
+        return gameData.Products.map((product) => ({
+          title: product.LocalizedProperties[0].ProductTitle,
+          service: subscriptionService,
+        }));
+      })
+    );
+
+    const flattenedData = extractedData.flat();
+
+    // Fetch all games from the database
+    // const allGamesFromDB = await allGames();
+
+    // Iterate over the API games
+    for (const apiGame of flattenedData) {
+      // Find the corresponding game in the database
+      const matchingGame = arrayOfGames.find((dbGame) =>
+        dbGame.title.toLowerCase().includes(apiGame.title.toLowerCase())
+      );
+      // If a match is found, insert subscription information
+      if (matchingGame) {
+        const updatedGame = {
+          ...matchingGame,
+          subscription: [apiGame.service],
+        };
+        try {
+          await insertGameSubscription(updatedGame.title, apiGame.service);
+          console.log(matchingGame);
+          updatedGames.push(updatedGame);
+        } catch (error) {
+          console.error("Error updating game subscription:", error);
+        }
+      }
+    }
+    console.log("Updated games:", updatedGames);
+    return updatedGames;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 /* GIANT BOMB API
 
 ** fetch all of the data of ALL GAMES
@@ -40,7 +91,6 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    console.log(process.env.GIANT_BOMB_API_KEY);
     // let url = `https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&format=json`;
     let url =
       "https://www.giantbomb.com/api/games/?api_key=7ce397326f31f77d77c9f00ca086c8f5bc4168fb&filter=original_release_date:2020-01-01T00:00:00Z|2023-12-01T00:00:00Z&format=json";
@@ -103,17 +153,29 @@ router.post("/", async (req, res) => {
     }
 
     const resolvedPromises = await Promise.all(promises);
-
     arrayOfGames.push(...resolvedPromises);
 
     for (let i = 0; i < arrayOfGames.length; i++) {
       try {
         await newGame(arrayOfGames[i]);
+        console.log("Game added to the database:", arrayOfGames[i].title);
       } catch (error) {
         console.log("database integration error:", error);
         return res.status(error.status).json({ message: error.message });
       }
     }
+
+    let updatedXboxGames = await updateGamesWithSubscription(
+      "Xbox Game Pass",
+      "https://catalog.gamepass.com/sigls/v2?id=f6f1f99f-9b49-4ccd-b3bf-4d9767a77f5e&language=en-us&market=US",
+      arrayOfGames
+    );
+   
+    let updatedPCGames = await updateGamesWithSubscription(
+      "PC Game Pass",
+      "https://catalog.gamepass.com/sigls/v2?id=fdd9e2a7-0fee-49f6-ad69-4354098401ff&language=en-us&market=US",
+      arrayOfGames
+    );
 
     res.json(arrayOfGames);
   } catch (error) {
