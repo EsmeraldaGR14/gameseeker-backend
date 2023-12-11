@@ -86,6 +86,7 @@ const deleteGame = async (id) => {
     return error;
   }
 };
+
 const getTopXGames = async () => {
   try {
     const topXGames = await db.any(
@@ -107,6 +108,7 @@ const getLatestGames = async () => {
     return error;
   }
 };
+
 const getXGamesAtATime = async (data) => {
   try {
     const XGames = await db.any("SELECT * FROM game LIMIT $1 OFFSET $2;", [
@@ -120,6 +122,44 @@ const getXGamesAtATime = async (data) => {
 };
 };
 
+const insertGameSubscription = async (title, subscription) => {
+    try {
+      // Check if the game already exists in the database
+      const existingGame = await db.oneOrNone(
+        `SELECT * FROM game WHERE title ILIKE $1`,
+        [`%${title}%`]
+      );
+      let currentSubscription = [];
+      let matchingGame = {};
+
+      if (existingGame) {
+        // Retrieve the current subscription data
+        currentSubscription = existingGame.subscription;
+        matchingGame = existingGame;
+       
+        if (currentSubscription === null) {
+          currentSubscription = [];
+          console.log("Creating new subscription array:", currentSubscription);
+        }
+      if (!currentSubscription.includes(subscription)) {
+          
+          currentSubscription.push(subscription);
+
+          await db.none(`UPDATE game SET subscription = $1 WHERE id = $2`, [
+            currentSubscription,
+            existingGame.id,
+          ]);
+        }
+      }
+      matchingGame.subscription = currentSubscription || [];
+
+      return Promise.resolve(matchingGame);
+    } catch (error) {
+      console.error("Error updating game subscription:", error);
+      throw error;
+    }
+};
+
 module.exports = {
   allGames,
   singleGame,
@@ -129,4 +169,5 @@ module.exports = {
   getTopXGames,
   getLatestGames,
   getXGamesAtATime,
+  insertGameSubscription,
 };

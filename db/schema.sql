@@ -15,7 +15,7 @@ CREATE TABLE game (
     platforms VARCHAR[],
     boxart VARCHAR,
     esrb VARCHAR,
-    subscription VARCHAR,
+    subscription VARCHAR[],
     release_date VARCHAR,
     developers VARCHAR[],
     publishers VARCHAR[],
