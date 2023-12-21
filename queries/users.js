@@ -45,15 +45,29 @@ const newUser = async (data) => {
   }
 };
 
-const updateUser = async (id, data) => {
+const updateUserEmail = async (id, email) => {
   try {
     const updatedUser = await db.any(
-      "UPDATE users SET email = $1, password = $2 WHERE id = $3 RETURNING *",
-      [data.email, data.password, id]
+      "UPDATE users SET email = $1 WHERE id = $2 RETURNING *",
+      [email, id]
     );
     return updatedUser;
   } catch (error) {
-    console.error("Error in updateUser query:", error);
+    console.error("Error in updateUserEmail query:", error);
+    return { success: false, error: error.message || "Internal Server Error" };
+  }
+};
+
+const updateUserPassword = async (id, password) => {
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const updatedUser = await db.any(
+      "UPDATE users SET password = $1 WHERE id = $2 RETURNING *",
+      [hashedPassword, id]
+    );
+    return updatedUser;
+  } catch (error) {
+    console.error("Error in updateUserPassword query:", error);
     return { success: false, error: error.message || "Internal Server Error" };
   }
 };
@@ -72,7 +86,8 @@ module.exports = {
   allUsers,
   singleUser,
   newUser,
-  updateUser,
+  updateUserEmail,
+  updateUserPassword,
   deleteUser,
   getUserById,
 };

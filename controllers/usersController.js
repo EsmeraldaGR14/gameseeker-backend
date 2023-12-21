@@ -6,7 +6,8 @@ const {
   allUsers,
   singleUser,
   newUser,
-  updateUser,
+  updateUserPassword,
+  updateUserEmail,
   deleteUser,
   getUserById,
 } = require("../queries/users");
@@ -50,9 +51,20 @@ router.post("/add-user", checkDuplicateEmail, async (req, res) => {
   }
 });
 
-router.put("/update-user/:id", async (req, res) => {
+router.put("/update-user-email/:id", async (req, res) => {
   try {
-    const updatedUser = await updateUser(req.params.id, req.body);
+    const { email } = req.body;
+    const updatedUser = await updateUserEmail(req.params.id, email);
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message });
+  }
+});
+
+router.put("/update-user-password/:id", async (req, res) => {
+  try {
+    const { password } = req.body;
+    const updatedUser = await updateUserPassword(req.params.id, password);
     res.json(updatedUser);
   } catch (error) {
     res.status(error.status || 500).json({ error: error.message });
