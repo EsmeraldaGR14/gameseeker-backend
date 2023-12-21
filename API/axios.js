@@ -16,9 +16,8 @@ const fetchDataFromXboxAPI = async (url) => {
   try {
     const response = await axios.get(url);
 
-    // Extract and return specific data
+    
     if (response.data) {
-      // Extract and return specific data from each item in the response
       return response.data.map((item) => item.id);
     }
     return [];
